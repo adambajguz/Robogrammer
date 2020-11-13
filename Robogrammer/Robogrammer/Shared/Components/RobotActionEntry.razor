@@ -1,0 +1,19 @@
+﻿<div class="card">
+    <header>
+        <h6>RobotActionEntry @Id</h6>
+    </header>
+    <p>A nisi ullam ... cupiditate?</p>
+    <footer class="is-right">
+        <button @onclick="@(()=> OnRemoveClick.InvokeAsync(Action))" class="button error icon">Remove</button>
+    </footer>
+</div>
+
+@code {
+    [Parameter]
+    public RobotAction? Action { get; init; }
+
+    public Guid Id { get; init; } = Guid.NewGuid();
+
+    [Parameter]
+    public EventCallback<RobotAction> OnRemoveClick { get; set; }
+}

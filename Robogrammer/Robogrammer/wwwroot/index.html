@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Robogrammer</title>
+    <base href="/" />
+
+    <link href="manifest.json" rel="manifest" />
+
+    <link rel="shortcut icon" href="/assets/images/avicon-512px.png">
+    <link rel="icon" type="image/png" href="/assets/images/favicon-512px.png" sizes="512x512">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/avicon-512px.png">
+
+    <link href="/assets/css/c-blazor-error-ui.css" rel="stylesheet" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
+</head>
+
+<body id="body" class="dark">
+    <app>
+        <header class="container">
+            <div class="hero is-full-screen">
+                <div class="logo is-center is-vertical-align">
+
+                    <div class="wave-loader">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+
+                    <div class="row is-center">
+                        <div class="col-3">
+                            <img class="img-zoom-in-out" src="./assets/images/logo-512px.png" alt="Icon">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+    </app>
+
+    <div class="c-blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+    <script src="_content/Blazor.Extensions.Logging/blazor.extensions.logging.js" defer></script>
+    <script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js" defer></script>
+    <script src="/assets/js/js-extensions.js" defer></script>
+
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <script>
+        // options are optional ;)
+        MobileDragDrop.polyfill({
+            // use this to make use of the scroll behaviour
+            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+        });
+    </script>
+</body>
+
+</html>

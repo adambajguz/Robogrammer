@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{F043DFD0-93B6-40DB-86DB-FA4262DC44F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{46E71547-5D59-4AB1-AE38-A847B43F0331}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{477B3EB6-F657-4681-B093-D5A2666A54E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F4103478-F5DF-4E54-AA5A-2D2ED711E20C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{0617CE81-5BBD-4261-B9AF-3A6AE9CEE97D}"
+	ProjectSection(SolutionItems) = preProject
+		README-TE.md = README-TE.md
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{54F89B43-429A-4DD2-BF77-6BDAB3471FA4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.gitattributes = ..\..\.gitattributes
+		..\..\.gitignore = ..\..\.gitignore
+		..\..\.github\workflows\CI-Examples.yml = ..\..\.github\workflows\CI-Examples.yml
+		clean.ps1 = clean.ps1
+		..\..\codecov.yml = ..\..\codecov.yml
+		..\..\LICENSE = ..\..\LICENSE
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robogrammer.Common", "Robogrammer.Common\Robogrammer.Common.csproj", "{65B78796-9C71-4D2B-B173-6C21D1637D20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robogrammer.Core", "Robogrammer.Core\Robogrammer.Core.csproj", "{B948FF90-D875-4158-A410-EC571ED42ED0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robogrammer", "Robogrammer\Robogrammer.csproj", "{C23FC399-37FE-4FA5-850B-C04A7A0021BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65B78796-9C71-4D2B-B173-6C21D1637D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B78796-9C71-4D2B-B173-6C21D1637D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B78796-9C71-4D2B-B173-6C21D1637D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B78796-9C71-4D2B-B173-6C21D1637D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B948FF90-D875-4158-A410-EC571ED42ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B948FF90-D875-4158-A410-EC571ED42ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B948FF90-D875-4158-A410-EC571ED42ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B948FF90-D875-4158-A410-EC571ED42ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C23FC399-37FE-4FA5-850B-C04A7A0021BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23FC399-37FE-4FA5-850B-C04A7A0021BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23FC399-37FE-4FA5-850B-C04A7A0021BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23FC399-37FE-4FA5-850B-C04A7A0021BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46E71547-5D59-4AB1-AE38-A847B43F0331} = {F043DFD0-93B6-40DB-86DB-FA4262DC44F8}
+		{477B3EB6-F657-4681-B093-D5A2666A54E4} = {F043DFD0-93B6-40DB-86DB-FA4262DC44F8}
+		{F4103478-F5DF-4E54-AA5A-2D2ED711E20C} = {F043DFD0-93B6-40DB-86DB-FA4262DC44F8}
+		{65B78796-9C71-4D2B-B173-6C21D1637D20} = {477B3EB6-F657-4681-B093-D5A2666A54E4}
+		{B948FF90-D875-4158-A410-EC571ED42ED0} = {F4103478-F5DF-4E54-AA5A-2D2ED711E20C}
+		{C23FC399-37FE-4FA5-850B-C04A7A0021BC} = {46E71547-5D59-4AB1-AE38-A847B43F0331}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF963C46-268A-4FA1-92F0-95392223295B}
+	EndGlobalSection
+EndGlobal
