@@ -4,6 +4,6 @@
     {
         public override ActionType Type => Angle < 0 ? ActionType.TurnLeft : ActionType.TurnRight;
 
-        public double Angle { get; init; }
+        public double Angle { get; set; }
     }
 }

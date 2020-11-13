@@ -80,11 +80,12 @@
                     </div>
                 </Tab>
 
-                <Tab Text="Generator">
+                <Tab Text="Tools">
                     <div class="bg-secondary pd-medium">
                         <div class="row">
                             <div class="col">
-                                <button class="button primary outline" @onclick="GenerateCode">Generate</button>
+                                <button class="button primary outline" @onclick="OptimizeCode">Optimize</button>
+                                <button class="button primary" @onclick="GenerateCode">Generate NXC code</button>
                             </div>
                         </div>
                     </div>
@@ -119,8 +120,8 @@
                         }
                         else
                         {
-                            <Dropzone Items="RobotActions" InstantReplace="true">
-                                <RobotActionEntry Action="@context" OnRemoveClick="(item) => RobotActions.Remove(item)" />
+                            <Dropzone Items="RobotActions">
+                                <RobotActionEntry Action="@context" OnRemoveClick="async (item) => await RemoveAction(item)" />
                             </Dropzone>
                         }
                     </div>
@@ -142,6 +143,7 @@
     public CodeSettings Settings { get; protected set; } = new CodeSettings();
     public RobotActionForm NewAction { get; protected set; } = new RobotActionForm();
 
+    [Inject] private IRobotActionsOptimizer RobotActionsOptimizer { get; init; } = default!;
     [Inject] private IMarkdownService Markdown { get; init; } = default!;
 
     private Canvas2DContext? _context;
@@ -150,13 +152,15 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _context = await _canvasReference.CreateCanvas2DAsync();
+        if (firstRender)
+        {
+            _context = await _canvasReference.CreateCanvas2DAsync();
 
-        _routePrinter = new RobotRoutePrinter(_context, 800, 800);
-        await _routePrinter.Reset();
-        _routePrinter.BindData(RobotActions);
+            _routePrinter = new RobotRoutePrinter(_context, 800, 800);
+            await _routePrinter.Reset();
+            _routePrinter.BindData(RobotActions);
+        }
     }
-
 
     protected async Task AddAction()
     {
@@ -173,14 +177,38 @@
         if (newAction != null)
         {
             RobotActions.Add(newAction);
+            await ForceRouteUpdate();
+        }
+    }
 
-            if (_routePrinter is not null)
-                await _routePrinter.PrintRoute();
+    protected async Task RemoveAction(RobotAction action)
+    {
+        RobotActions.Remove(action);
+        await ForceRouteUpdate();
+    }
+
+    protected async Task ForceRouteUpdate()
+    {
+        if (_routePrinter is not null)
+        {
+            _routePrinter.BindData(RobotActions);
+            await _routePrinter.PrintRoute();
         }
     }
 
     protected void GenerateCode()
     {
 
+    }
+
+    protected void OptimizeCode()
+    {
+        List<RobotAction>? newActions = RobotActionsOptimizer.Optimize(RobotActions);
+
+        if (newActions is not null)
+        {
+            RobotActions = newActions;
+            _routePrinter?.BindData(RobotActions);
+        }
     }
 }

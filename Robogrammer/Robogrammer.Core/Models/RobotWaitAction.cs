@@ -4,6 +4,6 @@
     {
         public override ActionType Type => ActionType.Wait;
 
-        public int Duration { get; init; }
+        public int Duration { get; set; }
     }
 }

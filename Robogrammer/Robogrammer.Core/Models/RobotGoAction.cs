@@ -4,6 +4,6 @@
     {
         public override ActionType Type => Distance < 0 ? ActionType.GoBackward : ActionType.GoForward;
 
-        public double Distance { get; init; }
+        public double Distance { get; set; }
     }
 }

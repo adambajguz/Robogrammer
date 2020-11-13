@@ -1,35 +1,53 @@
 ﻿<div class="card">
     <header>
-        <h6>RobotActionEntry @Id</h6>
+        <h6>RobotActionEntry @(Action?.OperationId.ToString() ?? "<invalid operation>")</h6>
     </header>
 
-    <p>Action: @Action.Type</p>
-
-    @if (Action is RobotGoAction go)
+    @if (Action is not null)
     {
-        <p>Distance: @Math.Abs(go.Distance)</p>
-    }
-    else if (Action is RobotTurnAction turn)
-    {
-        <p>Angle: @Math.Abs(turn.Angle)</p>
+        <p>Action: @GetDisplayName(Action.Type)</p>
 
-    }
-    else if (Action is RobotWaitAction wait)
-    {
-        <p>Duration: @wait.Duration ms</p>
-    }
+        @if (Action is RobotGoAction go)
+        {
+            <p>Distance: @Math.Abs(go.Distance)</p>
+        }
+        else if (Action is RobotTurnAction turn)
+        {
+            <p>Angle: @Math.Abs(turn.Angle)</p>
 
-    <footer class="is-right">
-        <button @onclick="@(()=> OnRemoveClick.InvokeAsync(Action))" class="button error icon">Remove</button>
-    </footer>
+        }
+        else if (Action is RobotWaitAction wait)
+        {
+            <p>Duration: @wait.Duration ms</p>
+        }
+
+        <footer class="is-right">
+            <button @onclick="@(()=> OnRemoveClick.InvokeAsync(Action))" class="button error icon">Remove</button>
+        </footer>
+    }
 </div>
 
 @code {
     [Parameter]
     public RobotAction? Action { get; init; }
 
-    public Guid Id { get; init; } = Guid.NewGuid();
-
     [Parameter]
     public EventCallback<RobotAction> OnRemoveClick { get; set; }
+
+    // Get the display text for an enum value:
+    // - Use the DisplayAttribute if set on the enum member, so this support localization
+    // - Fallback on Humanizer to decamelize the enum member name
+    private static string GetDisplayName(ActionType value)
+    {
+        // Read the Display attribute name
+        var member = value.GetType().GetMember(value.ToString())[0];
+        var displayAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>();
+        if (displayAttribute != null)
+            return displayAttribute.GetName();
+
+        // Require the NuGet package Humanizer.Core
+        // <PackageReference Include = "Humanizer.Core" Version = "2.8.26" />
+        return value.ToString().Humanize();
+    }
+
 }
