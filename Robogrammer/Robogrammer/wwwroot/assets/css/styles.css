@@ -26,6 +26,14 @@ body.dark {
     --color-accent: #00d5ff;
 }
 
+.bg-secondary {
+    background-color: var(--bg-secondary-color) !important;
+}
+
+.pd-medium {
+    padding: 2rem !important;
+}
+
 .container {
     padding: 0;
 }

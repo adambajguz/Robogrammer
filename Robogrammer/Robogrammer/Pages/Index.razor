@@ -2,123 +2,119 @@
 
 <section>
     <div class="row">
-        <div class="col-8">
-            <EditForm Model="Settings">
-                <fieldset id="forms__input">
-                    <legend>Input fields</legend>
-                    <p>
-                        <label for="input__name">Text Input</label>
-                        <input id="input__name" type="text" placeholder="Text Input" @bind-value="Settings.Name">
-                    </p>
-                </fieldset>
+        <div class="col">
 
-                <fieldset id="forms__select">
-                    <legend>Robot configuration</legend>
-                    <p class="grouped">
-                        <span>
-                            <label for="input__track-width">Track width [mm]</label>
-                            <input type="number" id="input__track-width" min="0" max="20" @bind-value="Settings.TrackWidth">
-                        </span>
+            <TabContainer>
+                <Tab Text="New action">
+                    <div class="bg-secondary pd-medium">
+                        <EditForm Model="NewAction">
 
-                        <span>
-                            <label for="input__wheel-diameter-input">Wheel diameter [mm]</label>
-                            <input type="number" id="input__wheel-diameter" min="0" max="5" @bind-value="Settings.WheelDiameter">
-                        </span>
+                            <fieldset id="forms__select">
+                                <legend>New action creator</legend>
 
-                        <span>
-                            <label for="input__left-engine">Engines</label>
-                            <InputSelect id="input__left-engine" @bind-Value="Settings.LeftEnginePort">
-                                <optgroup label="Option Group">
-                                    @foreach (var value in Enum.GetValues(typeof(Ports)))
+                                <p class="grouped">
+                                    <label for="input_action-type">Action type</label>
+                                    <InputSelect id="input_action-type" @bind-Value="NewAction.Type">
+                                        <optgroup label="Actions">
+                                            @foreach (var value in Enum.GetValues(typeof(ActionType)))
+                                            {
+                                                <option>@value</option>
+                                            }
+                                        </optgroup>
+                                    </InputSelect>
+
+                                    @if (NewAction.Type == ActionType.GoForward || NewAction.Type == ActionType.GoBackward)
                                     {
-                                        <option>@value</option>
+                                        <label for="input__distance">Distance [cm]</label>
+                                        <input type="number" id="input__distance" min="0" @bind-value="NewAction.Distance">
                                     }
-                                </optgroup>
-                            </InputSelect>
-                        </span>
-
-                        <span>
-                            <label for="input__right-engine">Engines</label>
-                            <InputSelect id="input__right-engine" @bind-Value="Settings.RightEnginePort">
-                                <optgroup label="Option Group">
-                                    @foreach (var value in Enum.GetValues(typeof(Ports)))
+                                    else if (NewAction.Type == ActionType.Wait)
                                     {
-                                        <option>@value</option>
+                                        <label for="input__duration">Duration [ms]</label>
+                                        <input type="number" id="input__duration" min="1" @bind-value="NewAction.Duration">
                                     }
-                                </optgroup>
-                            </InputSelect>
-                        </span>
+                                    else if (NewAction.Type == ActionType.TurnLeft || NewAction.Type == ActionType.TurnRight)
+                                    {
+                                        <label for="input__angle">Angle [degrees]</label>
+                                        <input type="number" id="input__angle" min="0" max="360" @bind-value="NewAction.Angle">
+                                    }
 
-                    </p>
-                </fieldset>
+                                    <button class="button primary" @onclick="AddAction">Add</button>
+                                </p>
 
-            </EditForm>
-        </div>
-        <div class="col is-vertical-align is-right">
-            <button class="button primary outline" @onclick="GenerateCode">Generate</button>
+                            </fieldset>
+                        </EditForm>
+                    </div>
+                </Tab>
+
+                <Tab Text="Settings">
+                    <div class="bg-secondary pd-medium">
+                        <EditForm Model="Settings">
+                            <fieldset id="forms__input">
+                                <legend>Code name</legend>
+                                <p>
+                                    <label for="input__name">Code name</label>
+                                    <input id="input__name" type="text" placeholder="Program" @bind-value="Settings.Name">
+                                </p>
+                            </fieldset>
+
+                            <fieldset id="forms__select">
+                                <legend>Robot configuration</legend>
+                                <p class="grouped">
+                                    <span>
+                                        <label for="input__track-width">Track width [cm]</label>
+                                        <input type="number" id="input__track-width" min="0" max="20" @bind-value="Settings.TrackWidth">
+                                    </span>
+
+                                    <span>
+                                        <label for="input__wheel-diameter-input">Wheel diameter [cm]</label>
+                                        <input type="number" id="input__wheel-diameter" min="0" max="5" @bind-value="Settings.WheelDiameter">
+                                    </span>
+
+                                    <span>
+                                        <label for="input__left-engine">Engines</label>
+                                        <InputSelect id="input__left-engine" @bind-Value="Settings.LeftEnginePort">
+                                            <optgroup label="Ports">
+                                                @foreach (var value in Enum.GetValues(typeof(Ports)))
+                                                {
+                                                    <option>@value</option>
+                                                }
+                                            </optgroup>
+                                        </InputSelect>
+                                    </span>
+
+                                    <span>
+                                        <label for="input__right-engine">Engines</label>
+                                        <InputSelect id="input__right-engine" @bind-Value="Settings.RightEnginePort">
+                                            <optgroup label="Option Group">
+                                                @foreach (var value in Enum.GetValues(typeof(Ports)))
+                                                {
+                                                    <option>@value</option>
+                                                }
+                                            </optgroup>
+                                        </InputSelect>
+                                    </span>
+
+                                </p>
+                            </fieldset>
+                        </EditForm>
+                    </div>
+                </Tab>
+
+                <Tab Text="Generator">
+                    <div class="bg-secondary">
+                        <div class="row bg-secondary">
+                            <div class="col is-vertical-align is-center">
+                                <button class="button primary outline" @onclick="GenerateCode">Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                </Tab>
+            </TabContainer>
+
         </div>
     </div>
 </section>
-
-@*<section>
-    <div class="row">
-        <div class="col-8">
-            <EditForm Model="NewAction">
-                <fieldset id="forms__input">
-                    <legend>Input fields</legend>
-                    <p>
-                        <label for="input__name">Text Input</label>
-                        <input id="input__name" type="text" placeholder="Text Input" @bind-value="Settings.Name">
-                    </p>
-                </fieldset>
-
-                <fieldset id="forms__select">
-                    <legend>Robot configuration</legend>
-                    <p class="grouped">
-                        <span>
-                            <label for="input__track-width">Track width [mm]</label>
-                            <input type="number" id="input__track-width" min="0" max="20" @bind-value="Settings.TrackWidth">
-                        </span>
-
-                        <span>
-                            <label for="input__wheel-diameter-input">Wheel diameter [mm]</label>
-                            <input type="number" id="input__wheel-diameter" min="0" max="5" @bind-value="Settings.WheelDiameter">
-                        </span>
-
-                        <span>
-                            <label for="input__left-engine">Engines</label>
-                            <InputSelect id="input__left-engine" @bind-Value="Settings.LeftEnginePort">
-                                <optgroup label="Option Group">
-                                    @foreach (var value in Enum.GetValues(typeof(Ports)))
-                                    {
-                                        <option>@value</option>
-                                    }
-                                </optgroup>
-                            </InputSelect>
-                        </span>
-
-                        <span>
-                            <label for="input__right-engine">Engines</label>
-                            <InputSelect id="input__right-engine" @bind-Value="Settings.RightEnginePort">
-                                <optgroup label="Option Group">
-                                    @foreach (var value in Enum.GetValues(typeof(Ports)))
-                                    {
-                                        <option>@value</option>
-                                    }
-                                </optgroup>
-                            </InputSelect>
-                        </span>
-
-                    </p>
-                </fieldset>
-
-            </EditForm>
-        </div>
-        <div class="col is-vertical-align is-right">
-            <button class="button primary outline" @onclick="GenerateCode">Generate</button>
-        </div>
-    </div>
-</section>*@
 
 <section>
     <div class="row is-vertical-align">
@@ -133,13 +129,15 @@
         <div class="col">
             <TabContainer>
                 <Tab Text="Actions">
-                    <Dropzone Items="RobotActions" InstantReplace="true">
-                        <RobotActionEntry Action="@context" OnRemoveClick="(item) => RobotActions.Remove(item)" />
-                    </Dropzone>
+                    <div class="bg-secondary pd-medium ">
+                        <Dropzone Items="RobotActions" InstantReplace="true">
+                            <RobotActionEntry Action="@context" OnRemoveClick="(item) => RobotActions.Remove(item)" />
+                        </Dropzone>
+                    </div>
                 </Tab>
 
                 <Tab Text="Route">
-                    <div class="bd-primary is-horizontal-align">
+                    <div class="bg-secondary pd-medium is-horizontal-align">
                         <BECanvas Width="400" Height="400" @ref="_canvasReference"></BECanvas>
                     </div>
                 </Tab>
@@ -150,9 +148,9 @@
 
 @code
 {
-    public List<RobotAction> RobotActions { get; protected set; } = new List<RobotAction> { new RobotAction(), new RobotAction() };
+    public List<RobotAction> RobotActions { get; protected set; } = new List<RobotAction>();
     public CodeSettings Settings { get; protected set; } = new CodeSettings();
-    public RobotAction NewAction { get; protected set; } = new RobotAction();
+    public RobotActionForm NewAction { get; protected set; } = new RobotActionForm();
 
     [Inject] private IMarkdownService Markdown { get; init; } = default!;
 
@@ -168,6 +166,25 @@
 
         await _context.SetStrokeStyleAsync("#444");
         await _context.StrokeRectAsync(200, 200, 20, 20);
+    }
+
+
+    protected void AddAction()
+    {
+        RobotAction? newAction = NewAction.Type switch
+        {
+            ActionType.GoForward => new RobotGoAction { Distance = NewAction.Distance },
+            ActionType.GoBackward => new RobotGoAction { Distance = -NewAction.Distance },
+            ActionType.TurnLeft => new RobotTurnAction { Angle = -NewAction.Angle },
+            ActionType.TurnRight => new RobotTurnAction { Angle = NewAction.Angle },
+            ActionType.Wait => new RobotWaitAction { Duration = NewAction.Duration },
+            _ => null
+        };
+
+        if (newAction != null)
+        {
+            RobotActions.Add(newAction);
+        }
     }
 
     protected void GenerateCode()

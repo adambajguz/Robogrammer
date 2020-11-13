@@ -2,7 +2,23 @@
     <header>
         <h6>RobotActionEntry @Id</h6>
     </header>
-    <p>A nisi ullam ... cupiditate?</p>
+
+    <p>Action: @Action.Type</p>
+
+    @if (Action is RobotGoAction go)
+    {
+        <p>Distance: @Math.Abs(go.Distance)</p>
+    }
+    else if (Action is RobotTurnAction turn)
+    {
+        <p>Angle: @Math.Abs(turn.Angle)</p>
+
+    }
+    else if (Action is RobotWaitAction wait)
+    {
+        <p>Duration: @wait.Duration ms</p>
+    }
+
     <footer class="is-right">
         <button @onclick="@(()=> OnRemoveClick.InvokeAsync(Action))" class="button error icon">Remove</button>
     </footer>
