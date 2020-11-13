@@ -17,10 +17,12 @@
 
         header > .hero > .logo .header-heading {
             margin: 1.7em 0 0 0;
-            font-size: 1.5em;
+            font-size: 2rem;
             font-weight: 300;
+            color: var(--color-accent)
         }
 
         header > .hero > .logo .header-subheading {
             font-weight: 100;
+            font-size: 1.75rem;
         }

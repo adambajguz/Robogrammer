@@ -39,6 +39,11 @@ body.dark {
             background-color: var(--page-column-bg-color);
         }
 
+.card {
+    box-shadow: none;
+    border-radius: 0;
+}
+
 section {
     margin: 5rem auto;
 }
@@ -78,6 +83,6 @@ hr {
         margin-left: 0.5rem;
     }
 
-.tag.new-example-tag {
+.tag.tip-tag {
     margin-right: 1rem;
 }
