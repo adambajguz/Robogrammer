@@ -128,7 +128,7 @@
 
                 <Tab Text="Route">
                     <div class="bg-secondary pd-medium is-horizontal-align">
-                        <BECanvas Width="400" Height="400" @ref="_canvasReference"></BECanvas>
+                        <BECanvas Width="800" Height="800" @ref="_canvasReference"></BECanvas>
                     </div>
                 </Tab>
             </TabContainer>
@@ -151,12 +151,14 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         _context = await _canvasReference.CreateCanvas2DAsync();
-        _routePrinter = new RobotRoutePrinter(_context);
-        await _routePrinter.Initialize();
+
+        _routePrinter = new RobotRoutePrinter(_context, 800, 800);
+        await _routePrinter.Reset();
+        _routePrinter.BindData(RobotActions);
     }
 
 
-    protected void AddAction()
+    protected async Task AddAction()
     {
         RobotAction? newAction = NewAction.Type switch
         {
@@ -171,6 +173,9 @@
         if (newAction != null)
         {
             RobotActions.Add(newAction);
+
+            if (_routePrinter is not null)
+                await _routePrinter.PrintRoute();
         }
     }
 
