@@ -15,17 +15,5 @@
 
         [Display(Name = "Port D")]
         PortD,
-
-        [Display(Name = "Port 1")]
-        Port1,
-
-        [Display(Name = "Port 2")]
-        Port2,
-
-        [Display(Name = "Port 3")]
-        Port3,
-
-        [Display(Name = "Port 4")]
-        Port4,
     }
 }
