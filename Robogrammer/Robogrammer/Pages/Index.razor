@@ -54,15 +54,6 @@
                             <fieldset id="forms__select">
                                 <legend>Robot configuration</legend>
                                 <p class="grouped">
-                                    <span>
-                                        <label for="input__track-width">Track width [cm]</label>
-                                        <input type="number" id="input__track-width" min="0" max="20" @bind-value="Settings.TrackWidth">
-                                    </span>
-
-                                    <span>
-                                        <label for="input__wheel-diameter-input">Wheel diameter [cm]</label>
-                                        <input type="number" id="input__wheel-diameter" min="0" max="5" @bind-value="Settings.WheelDiameter">
-                                    </span>
 
                                     <span>
                                         <label for="input__left-engine">Engines</label>
@@ -143,8 +134,10 @@
     public CodeSettings Settings { get; protected set; } = new CodeSettings();
     public RobotActionForm NewAction { get; protected set; } = new RobotActionForm();
 
+    [Inject] private IRobotActionsCodeGenerator CodeGenerator { get; init; } = default!;
     [Inject] private IRobotActionsOptimizer RobotActionsOptimizer { get; init; } = default!;
     [Inject] private IMarkdownService Markdown { get; init; } = default!;
+    [Inject] private IJSRuntime JS { get; init; } = default!;
 
     private Canvas2DContext? _context;
     private RobotRoutePrinter? _routePrinter;
@@ -196,9 +189,20 @@
         }
     }
 
-    protected void GenerateCode()
+    protected async Task GenerateCode()
     {
+        string code = CodeGenerator.Generate(RobotActions, Settings);
 
+        byte[] bytes = System.Text.Encoding.Unicode.GetBytes(code);
+        string filename = $"{(string.IsNullOrWhiteSpace(Settings.Name) ? "program" : Settings.Name)}.nxc";
+
+        await JS.InvokeVoidAsync("downloadFromByteArray",
+          new
+          {
+              ByteArray = bytes,
+              FileName = filename,
+              ContentType = "plain/text"
+          });
     }
 
     protected void OptimizeCode()

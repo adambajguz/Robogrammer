@@ -5,6 +5,6 @@
 
     public interface IRobotActionsCodeGenerator
     {
-        string Generate(IReadOnlyList<RobotAction> robotActions);
+        string Generate(IReadOnlyList<RobotAction> robotActions, CodeSettings settings);
     }
 }

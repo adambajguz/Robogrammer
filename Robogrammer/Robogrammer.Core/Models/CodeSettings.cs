@@ -7,8 +7,5 @@
 
         public Ports LeftEnginePort { get; set; }
         public Ports RightEnginePort { get; set; }
-
-        public double WheelDiameter { get; set; }
-        public double TrackWidth { get; set; }
     }
 }
