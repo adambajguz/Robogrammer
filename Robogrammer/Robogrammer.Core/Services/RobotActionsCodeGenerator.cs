@@ -29,8 +29,8 @@
                     sb.AppendLine($"// #{i + 1:D4} START");
                     sb.AppendLine("ClearScreen();");
                     sb.AppendLine($"TextOut(0, LCD_LINE1, \"#{i + 1:D4}\");");
-                    sb.AppendLine($"TextOut(0, LCD_LINE2, \"GO({go.Distance})\");");
-                    sb.AppendLine($"RotateMotor(LR, PWR_LR, {distance})");
+                    sb.AppendLine($"TextOut(0, LCD_LINE2, \"GO({(int)go.Distance})\");");
+                    sb.AppendLine($"RotateMotor(LR, PWR_LR, {(int)distance});");
                     sb.AppendLine("Wait(100);");
                 }
                 else if (current is RobotTurnAction turn)
@@ -40,8 +40,8 @@
                     sb.AppendLine($"// #{i + 1:D4} START");
                     sb.AppendLine("ClearScreen();");
                     sb.AppendLine($"TextOut(0, LCD_LINE1, \"#{i + 1:D4}\");");
-                    sb.AppendLine($"TextOut(0, LCD_LINE2, \"TURN({turn.Angle})\");");
-                    sb.AppendLine($"RotateMotorEx(LR, PWR_LR, {angle}, true, true);");
+                    sb.AppendLine($"TextOut(0, LCD_LINE2, \"TURN({(int)turn.Angle})\");");
+                    sb.AppendLine($"RotateMotorEx(LR, PWR_LR, {(int)angle}, -TURN_RATIO, true, true);");
                     sb.AppendLine("Wait(100);");
                 }
                 else if (current is RobotWaitAction wait)
