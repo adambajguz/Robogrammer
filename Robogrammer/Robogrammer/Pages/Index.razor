@@ -73,6 +73,14 @@
 
                 <Tab Text="Tools">
                     <div class="bg-secondary pd-medium">
+                        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-error">@ErrorMessage</p>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col">
                                 <button class="button primary outline" @onclick="OptimizeCode">Optimize</button>
@@ -143,6 +151,8 @@
     private RobotRoutePrinter? _routePrinter;
     protected Blazor.Extensions.BECanvasComponent? _canvasReference;
 
+    private string ErrorMessage { get; set; } = string.Empty;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -191,6 +201,12 @@
 
     protected async Task GenerateCode()
     {
+        if (Settings.LeftEnginePort == Settings.RightEnginePort)
+        {
+            ErrorMessage = "Cannot generate code because left and right engines are attached to the same port.";
+            return;
+        }
+
         string code = CodeGenerator.Generate(RobotActions, Settings);
 
         byte[] bytes = System.Text.Encoding.Unicode.GetBytes(code);
