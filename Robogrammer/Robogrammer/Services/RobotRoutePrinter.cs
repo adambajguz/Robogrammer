@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Threading.Tasks;
     using Blazor.Extensions.Canvas.Canvas2D;
+    using Robogrammer.Common.Utils;
     using Robogrammer.Core.Models;
 
     public sealed class RobotRoutePrinter
@@ -48,23 +50,27 @@
 
             int x = Width / 2;
             int y = Height / 2;
+            double angle  = 0;
 
             foreach (RobotAction action in _robotActions)
             {
                 if (action is RobotGoAction go)
                 {
                     int ye = (int)Math.Round(y - go.Distance);
-                    await PrintLine(x, y, x, ye);
-                    await PrintLine(x+ _robotWidth, y, x+ _robotWidth, ye);
-                    y += ye - y;
+
+                    var endPoint = PointRotationUtils.RotatePoint(new Point(x, ye), new Point(x, y), angle);
+
+                    await PrintLine(x, y, endPoint.X, endPoint.Y);
+                    x = endPoint.X;
+                    y = endPoint.Y;
                 }
                 else if (action is RobotTurnAction turn)
                 {
-
+                    angle += turn.Angle;
                 }
                 else if (action is RobotWaitAction wait)
                 {
-
+                    await _context.StrokeTextAsync($"wait {wait.Duration}ms", x + _robotWidth * 2, y);
                 }
             }
 
@@ -86,11 +92,6 @@
                                          y,
                                          _robotWidth,
                                          _robotHeight);
-
-            await _context.FillRectAsync(x + (_robotWidth / 4),
-                                         y - (_robotHeight / 4),
-                                         _robotWidth / 2,
-                                         _robotHeight / 4);
         }
 
         private async Task PrintLine(int xStart, int yStart, int xEnd, int yEnd)

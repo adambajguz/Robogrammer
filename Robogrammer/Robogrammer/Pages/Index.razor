@@ -169,11 +169,11 @@
     {
         RobotAction? newAction = NewAction.Type switch
         {
-            ActionType.GoForward => new RobotGoAction { Distance = NewAction.Distance },
-            ActionType.GoBackward => new RobotGoAction { Distance = -NewAction.Distance },
-            ActionType.TurnLeft => new RobotTurnAction { Angle = -NewAction.Angle },
-            ActionType.TurnRight => new RobotTurnAction { Angle = NewAction.Angle },
-            ActionType.Wait => new RobotWaitAction { Duration = NewAction.Duration },
+            ActionType.GoForward => new RobotGoAction { Distance = Math.Abs(NewAction.Distance) },
+            ActionType.GoBackward => new RobotGoAction { Distance = -Math.Abs(NewAction.Distance) },
+            ActionType.TurnLeft => new RobotTurnAction { Angle = -Math.Abs(NewAction.Angle) },
+            ActionType.TurnRight => new RobotTurnAction { Angle = Math.Abs(NewAction.Angle) },
+            ActionType.Wait => new RobotWaitAction { Duration = Math.Abs(NewAction.Duration) },
             _ => null
         };
 
