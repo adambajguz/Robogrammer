@@ -43,6 +43,14 @@
                 <Tab Text="Settings">
                     <div class="bg-secondary pd-medium">
                         <EditForm Model="Settings">
+                            <fieldset id="forms__input">
+                                <legend>Code name</legend>
+                                <p>
+                                    <label for="input__name">Code name</label>
+                                    <input id="input__name" type="text" placeholder="Program" @bind-value="Settings.Name">
+                                </p>
+                            </fieldset>
+
                             <fieldset id="forms__select">
                                 <legend>Robot configuration</legend>
                                 <p class="grouped">
