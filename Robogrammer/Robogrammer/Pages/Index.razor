@@ -118,17 +118,32 @@
                             </div>
                         }
                         else
-                        {
-                            <Dropzone Items="RobotActions">
-                                <RobotActionEntry Action="@context" OnRemoveClick="async (item) => await RemoveAction(item)" />
-                            </Dropzone>
+                        { <div class="row">
+                                <div class="col">
+                                    <Dropzone Items="RobotActions">
+                                        <RobotActionEntry Action="@context" OnRemoveClick="async (item) => await RemoveAction(item)" />
+                                    </Dropzone>
+                                </div>
+                            </div>
                         }
+                        <div class="row">
+                            <div class="col">
+                                <button class="button error" @onclick="RemoveAll">Remove all</button>
+                            </div>
+                        </div>
                     </div>
                 </Tab>
 
                 <Tab Text="Route">
                     <div class="bg-secondary pd-medium is-horizontal-align">
-                        <BECanvas Width="800" Height="800" @ref="_canvasReference"></BECanvas>
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="button primary outline" @onclick="RefreshRoute">Refresh</button>
+                            </div>
+                            <div class="col">
+                                <BECanvas Width="800" Height="800" @ref="_canvasReference"></BECanvas>
+                            </div>
+                        </div>
                     </div>
                 </Tab>
             </TabContainer>
@@ -181,6 +196,7 @@
         {
             RobotActions.Add(newAction);
             await ForceRouteUpdate();
+            StateHasChanged();
         }
     }
 
@@ -188,6 +204,20 @@
     {
         RobotActions.Remove(action);
         await ForceRouteUpdate();
+        StateHasChanged();
+    }
+
+    protected async Task RemoveAll()
+    {
+        RobotActions.Clear();
+        await ForceRouteUpdate();
+        StateHasChanged();
+    }
+
+    protected async Task RefreshRoute()
+    {
+        await ForceRouteUpdate();
+        StateHasChanged();
     }
 
     protected async Task ForceRouteUpdate()
@@ -196,6 +226,7 @@
         {
             _routePrinter.BindData(RobotActions);
             await _routePrinter.PrintRoute();
+            StateHasChanged();
         }
     }
 
